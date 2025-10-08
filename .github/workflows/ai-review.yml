@@ -4,6 +4,10 @@ name: AI Review workflow
 
 on: [pull_request]
 
+env:
+  GITHUB_KEY: ${{ secrets.GITHUB_KEY }}
+  GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   review-job:
@@ -22,4 +26,4 @@ jobs:
        run: npm ci
 
      - name: Run AI analyzer script
-       run: node analysis-ai/dist/main.js --repo=${{ github.repository }} --ref=${{ github.ref_name }} --gemini_key=${{ secrets.GEMINI_KEY }}
+       run: node analysis-ai/dist/main.js --repo=${{ github.repository }} --ref=${{ github.ref_name }}
