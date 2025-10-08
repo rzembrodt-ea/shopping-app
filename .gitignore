@@ -11,7 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
-*.env
+.env*
+!/analysis-ai/.env
+!/analysis-ai/dist
 
 # Editor directories and files
 .vscode/*
