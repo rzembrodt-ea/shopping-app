@@ -2,10 +2,11 @@ import "dotenv/config";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { getPullRequestFiles } from "./github.js";
-import { getGeminiContent } from "./gemini.js";
+import { GeminiModel } from "./gemini.js";
 const argv = yargs(hideBin(process.argv))
     .option('repo', { type: 'string', demandOption: true })
     .option('ref', { type: 'string', demandOption: true })
+    .option('gemini_key', { type: 'string' })
     .parseSync();
 async function main() {
     try {
@@ -17,7 +18,8 @@ async function main() {
             console.log('\t- ' + response.filename);
             fileRequests += `File: ${response.filename}, file patch: ${response.patch}\n`;
         }
-        const geminiResponse = await getGeminiContent(`Generate suggested code changes and unit tests for the following pull request\n${fileRequests}`);
+        const gemini = new GeminiModel(argv.gemini_key || process.env.GEMINI_KEY || '');
+        const geminiResponse = await gemini.getGeminiContent(`Generate suggested code changes and unit tests for the following pull request\n${fileRequests}`);
         if (geminiResponse) {
             console.log('Gemini response: ' + geminiResponse);
         }
