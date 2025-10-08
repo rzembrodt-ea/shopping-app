@@ -21,4 +21,4 @@ jobs:
        run: npm ci
 
      - name: Run AI analyzer script
-       run: node analysis-ai/dist/main.js --repo=${{ github.repository }} --ref=${{ github.ref_name }}
+       run: node analysis-ai/dist/main.js --repo=${{ github.repository }} --ref=${{ github.ref_name }} --gemini_key=${{ secrets.GEMINI_KEY }}
