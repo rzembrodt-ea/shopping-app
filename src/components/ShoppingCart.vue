@@ -11,6 +11,8 @@ interface Props {
   isOpen: boolean;
 }
 
+const taxRate = 0.15
+
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
@@ -20,8 +22,16 @@ const emit = defineEmits<{
   checkout: [];
 }>();
 
-const total = computed(() => {
+const totalBeforeTax = computed(() => {
   return props.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+});
+
+const tax = computed(() => {
+  return totalBeforeTax.value * taxRate;
+})
+
+const total = computed(() => {
+  return totalBeforeTax.value + tax.value;
 });
 
 const itemCount = computed(() => {
@@ -95,6 +105,14 @@ const handleCheckout = () => {
             <div class="summary-row">
               <span>Items:</span>
               <span>{{ itemCount }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Subtotal:</span>
+              <span>${{ totalBeforeTax.toFixed(2) }}</span>
+            </div>
+            <div class="summary-row">
+              <span>Tax ({{ taxRate * 100 }}%):</span>
+              <span>${{tax.toFixed(2)}}</span>
             </div>
             <div class="summary-row total">
               <span>Total:</span>
