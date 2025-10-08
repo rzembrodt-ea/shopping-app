@@ -12,7 +12,6 @@ dist
 dist-ssr
 *.local
 .env*
-!/analysis-ai/.env
 !/analysis-ai/dist
 
 # Editor directories and files
